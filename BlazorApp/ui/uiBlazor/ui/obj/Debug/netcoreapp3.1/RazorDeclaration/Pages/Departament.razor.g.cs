@@ -98,7 +98,7 @@ using System.Text.Json.Serialization;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 84 "C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\Pages\Departament.razor"
+#line 83 "C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\Pages\Departament.razor"
        
 
     public class DepartamentClass

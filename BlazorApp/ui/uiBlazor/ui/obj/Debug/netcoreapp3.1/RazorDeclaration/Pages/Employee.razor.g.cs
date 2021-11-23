@@ -75,6 +75,20 @@ using ui.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 2 "C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\Pages\Employee.razor"
+using System.Text.Json;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 3 "C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\Pages\Employee.razor"
+using System.Text.Json.Serialization;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/Employee")]
     public partial class Employee : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -83,6 +97,177 @@ using ui.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 119 "C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\Pages\Employee.razor"
+       
+
+    //public class DepartamentClass
+    //{
+    //    public int DepartamentId { get; set; }
+    //    public string DepartamentName { get; set; }
+    //}
+
+    public class EmployeeClass
+    {
+        public int EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public string Departament { get; set; }
+        public string DateOfJoinging { get; set; }
+        public string PhotoFileName { get; set; }
+    }
+
+    //private IEnumerable<DepartamentClass> departaments = Array.Empty<DepartamentClass>();
+    private IEnumerable<EmployeeClass> employees = Array.Empty<EmployeeClass>();
+
+    private string modalTitle;
+    private int EmployeeId;
+    private string EmployeeName;
+    private string Departament;
+    private DateTime DateOfJoining;
+    private string PhotoFileName;
+    private string PhotoPath;
+
+    protected override async Task OnInitializedAsync()
+    {
+        PhotoPath = config["photo_url"];
+        PhotoFileName = "pics.png";
+        await refreshList();
+    }
+
+    private async Task refreshList()
+    {
+        //var request = new HttpRequestMessage(HttpMethod.Get,
+        //    config["Api_Url"] + "Departament");
+
+        //var client = ClientFactory.CreateClient();
+
+        //var response = await client.SendAsync(request);
+
+        //using var responseStream = await response.Content.ReadAsStreamAsync();
+
+        //departaments = await JsonSerializer.DeserializeAsync<IEnumerable<DepartamentClass>>(responseStream);
+
+        var request2 = new HttpRequestMessage(HttpMethod.Get,
+            config["Api_Url"] + "Employee");
+
+        var client2 = ClientFactory.CreateClient();
+
+        var response2 = await client2.SendAsync(request2);
+
+        using var responseStream2 = await response2.Content.ReadAsStreamAsync();
+
+        employees = await JsonSerializer.DeserializeAsync<IEnumerable<EmployeeClass>>(responseStream2);
+
+    }
+
+    private async Task createClick()
+    {
+        var empObj = new EmployeeClass() {
+            EmployeeName = EmployeeName,
+            Departament = Departament,
+            DateOfJoinging = DateOfJoining.ToString("yyyy-MM-dd"),
+            PhotoFileName = PhotoFileName
+        };
+
+        var request = new HttpRequestMessage(HttpMethod.Post,
+            config["Api_Url"] + "Employee");
+
+        request.Content = new StringContent(JsonSerializer.Serialize(empObj), null, "application/json");
+
+        var client = ClientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        using var responseStream = await response.Content.ReadAsStreamAsync();
+
+        string resp = await JsonSerializer.DeserializeAsync<string>(responseStream);
+
+        await JS.InvokeVoidAsync("alert", resp);
+
+        await refreshList();
+
+    }
+
+    private async Task updateClick()
+    {
+        var empObj = new EmployeeClass()
+        {
+            EmployeeId= EmployeeId,
+            EmployeeName = EmployeeName,
+            Departament = Departament,
+            DateOfJoinging = DateOfJoining.ToString("yyyy-MM-dd"),
+            PhotoFileName = PhotoFileName
+        };
+
+        var request = new HttpRequestMessage(HttpMethod.Put,
+        config["Api_Url"] + "Employee");
+
+        request.Content = new StringContent(JsonSerializer.Serialize(empObj), null, "application/json");
+
+        var client = ClientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        using var responseStream = await response.Content.ReadAsStreamAsync();
+
+        string resp = await JsonSerializer.DeserializeAsync<string>(responseStream);
+
+        await JS.InvokeVoidAsync("alert", resp);
+
+        await refreshList();
+
+    }
+
+    private async Task deleteClick(int id)
+    {
+        if (!await JS.InvokeAsync<bool>("confirm", "seguro?"))
+        {
+            return;
+        }
+
+        var request = new HttpRequestMessage(HttpMethod.Delete,
+            config["Api_Url"] + "Employee/" + id.ToString());
+
+        var client = ClientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        using var responseStream = await response.Content.ReadAsStreamAsync();
+
+        string resp = await JsonSerializer.DeserializeAsync<string>(responseStream);
+
+        await JS.InvokeVoidAsync("alert", resp);
+
+        await refreshList();
+
+    }
+
+    private void addClick()
+    {
+        modalTitle = "Add employee";
+        EmployeeId = 0;
+        EmployeeName = "";
+        Departament = "";
+        DateOfJoining = DateTime.Now;
+        PhotoFileName = "pics.png";
+    }
+
+    private void editClick(EmployeeClass emp)
+    {
+        modalTitle = "Edit employee";
+        EmployeeId = emp.EmployeeId;
+        EmployeeName = emp.EmployeeName;
+        Departament = emp.Departament;
+        DateOfJoining = Convert.ToDateTime(emp.DateOfJoinging);
+        PhotoFileName = emp.PhotoFileName;
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JS { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private Microsoft.Extensions.Configuration.IConfiguration config { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IHttpClientFactory ClientFactory { get; set; }
     }
 }
 #pragma warning restore 1591
