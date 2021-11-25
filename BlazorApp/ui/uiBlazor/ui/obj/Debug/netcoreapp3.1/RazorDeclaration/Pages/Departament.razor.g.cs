@@ -98,7 +98,7 @@ using System.Text.Json.Serialization;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 83 "C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\Pages\Departament.razor"
+#line 113 "C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\Pages\Departament.razor"
        
 
     public class DepartamentClass
@@ -108,6 +108,11 @@ using System.Text.Json.Serialization;
     }
 
     private IEnumerable<DepartamentClass> departaments = Array.Empty<DepartamentClass>();
+
+    private string DepartamentIdFilter = "";
+    private string DepartamentNameFilter = "";
+
+    private IEnumerable<DepartamentClass> departamentsWithoutFilter = Array.Empty<DepartamentClass>();
 
     private string modalTitle;
     private int DepartamentId;
@@ -129,8 +134,41 @@ using System.Text.Json.Serialization;
 
         using var responseStream = await response.Content.ReadAsStreamAsync();
 
-        departaments = await JsonSerializer.DeserializeAsync<IEnumerable<DepartamentClass>>(responseStream);
+        departamentsWithoutFilter = departaments = await JsonSerializer.DeserializeAsync<IEnumerable<DepartamentClass>>(responseStream);
 
+    }
+
+    private void FilterFn()
+    {
+        departaments = departamentsWithoutFilter.Where(
+            c => c.DepartamentId.ToString().Contains(DepartamentIdFilter) &&
+            c.DepartamentName.ToLower().Contains(DepartamentNameFilter.ToLower()));
+    }
+
+    private void SortFn(string property, string asc_desc)
+    {
+        if (property == "DepartamentId")
+        {
+            if (asc_desc == "asc")
+            {
+                departaments = departamentsWithoutFilter.OrderBy(c => c.DepartamentId);
+            }
+            else
+            {
+                departaments = departamentsWithoutFilter.OrderByDescending(c => c.DepartamentId);
+            }
+        }
+        else
+        {
+            if (asc_desc == "asc")
+            {
+                departaments = departamentsWithoutFilter.OrderBy(c => c.DepartamentName);
+            }
+            else
+            {
+                departaments = departamentsWithoutFilter.OrderByDescending(c => c.DepartamentName);
+            }
+        }
     }
 
     private async Task createClick()
