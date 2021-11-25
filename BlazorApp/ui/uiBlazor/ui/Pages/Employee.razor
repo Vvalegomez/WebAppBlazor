@@ -4,6 +4,8 @@
 @inject IHttpClientFactory ClientFactory
 @inject Microsoft.Extensions.Configuration.IConfiguration config
 @inject IJSRuntime JS
+@using BlazorInputFile
+@using System.IO
 
 
 <button type="button" class="btn btn-primary m-2 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal"
@@ -94,6 +96,7 @@
 
                 <div clas="p-2 w-50 bd-highlight">
                     <img width="250" height="250" src="@PhotoPath/@PhotoFileName"/>
+                    <InputFile class="m-2" OnChange="UploadFile"/>
                 </div>
 
                 @if (modalTitle == "Add employee")
@@ -174,6 +177,30 @@
         using var responseStream2 = await response2.Content.ReadAsStreamAsync();
 
         employees = await JsonSerializer.DeserializeAsync<IEnumerable<EmployeeClass>>(responseStream2);
+
+    }
+
+    private async Task UploadFile(IFileListEntry[] files)
+    {
+        var file = files.FirstOrDefault();
+        var ms = new MemoryStream();
+        await file.Data.CopyToAsync(ms);
+
+        var content = new MultipartFormDataContent { { new ByteArrayContent(ms.GetBuffer()), "\"file\"", file.Name } };
+
+        var request = new HttpRequestMessage(HttpMethod.Post,
+            config["Api_Url"] + "Employee/savefile");
+
+        request.Content = content;
+
+        var client = ClientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        using var responseStream = await response.Content.ReadAsStreamAsync();
+
+        PhotoFileName = await JsonSerializer.DeserializeAsync<string>(responseStream);
+
 
     }
 
@@ -261,6 +288,7 @@
 
     private void addClick()
     {
+        Employee employee = new Employee();
         modalTitle = "Add employee";
         EmployeeId = 0;
         EmployeeName = "";

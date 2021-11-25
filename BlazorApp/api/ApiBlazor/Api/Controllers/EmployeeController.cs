@@ -29,7 +29,7 @@ namespace Api.Controllers
         public JsonResult Get()
         {
             string query = @"
-               select * from dbo.Departament
+               select * from dbo.Employee
              ";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
@@ -66,7 +66,7 @@ namespace Api.Controllers
                 {
                     cmd.Parameters.AddWithValue("@EmployeeName", employee.EmployeeName);
                     cmd.Parameters.AddWithValue("@Departament", employee.Departament);
-                    cmd.Parameters.AddWithValue("@DateOfJoining", employee.DateOfJoining);
+                    cmd.Parameters.AddWithValue("@DateOfJoining",employee.DateOfJoining.ToShortDateString());
                     cmd.Parameters.AddWithValue("@PhotoFileName", employee.PhotoFileName);
                     reader = cmd.ExecuteReader();
                     table.Load(reader);
@@ -82,7 +82,7 @@ namespace Api.Controllers
         public JsonResult Put(Employee employee)
         {
             string query = @"
-               update dbo.Employee set EmployeeName = @EmployeeName,Departament = @Departament,Departament = @Departament,
+               update dbo.Employee set EmployeeName = @EmployeeName,Departament = @Departament,
                DateOfJoining = @DateOfJoining, PhotoFileName = @PhotoFileName
                where EmployeeId = @EmployeeId
              ";
@@ -94,9 +94,10 @@ namespace Api.Controllers
                 sqlConexion.Open();
                 using (SqlCommand cmd = new SqlCommand(query, sqlConexion))
                 {
+                    cmd.Parameters.AddWithValue("@EmployeeId", employee.EmployeeId);
                     cmd.Parameters.AddWithValue("@EmployeeName", employee.EmployeeName);
                     cmd.Parameters.AddWithValue("@Departament", employee.Departament);
-                    cmd.Parameters.AddWithValue("@DateOfJoining", employee.DateOfJoining);
+                    cmd.Parameters.AddWithValue("@DateOfJoining", employee.DateOfJoining.ToShortDateString());
                     cmd.Parameters.AddWithValue("@PhotoFileName", employee.PhotoFileName);
                     reader = cmd.ExecuteReader();
                     table.Load(reader);

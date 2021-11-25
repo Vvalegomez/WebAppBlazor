@@ -8,7 +8,6 @@ C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\bin\Debug\netcoreapp
 C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\bin\Debug\netcoreapp3.1\ui.pdb
 C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\bin\Debug\netcoreapp3.1\ui.Views.dll
 C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\bin\Debug\netcoreapp3.1\ui.Views.pdb
-C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\obj\Debug\netcoreapp3.1\ui.csprojAssemblyReference.cache
 C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\obj\Debug\netcoreapp3.1\ui.AssemblyInfoInputs.cache
 C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\obj\Debug\netcoreapp3.1\ui.AssemblyInfo.cs
 C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\obj\Debug\netcoreapp3.1\ui.csproj.CoreCompileInputs.cache
@@ -53,3 +52,7 @@ C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\obj\Debug\netcoreapp
 C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\obj\Debug\netcoreapp3.1\ui.pdb
 C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\obj\Debug\netcoreapp3.1\ui.genruntimeconfig.cache
 C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\obj\Debug\netcoreapp3.1\ui.csproj.CopyComplete
+C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\obj\Debug\netcoreapp3.1\ui.csproj.AssemblyReference.cache
+C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\obj\Debug\netcoreapp3.1\ui.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\bin\Debug\netcoreapp3.1\ui.StaticWebAssets.xml
+C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\bin\Debug\netcoreapp3.1\BlazorInputFile.dll

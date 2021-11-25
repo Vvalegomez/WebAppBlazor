@@ -89,6 +89,20 @@ using System.Text.Json.Serialization;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 7 "C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\Pages\Employee.razor"
+using BlazorInputFile;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 8 "C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\Pages\Employee.razor"
+using System.IO;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/Employee")]
     public partial class Employee : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -98,7 +112,7 @@ using System.Text.Json.Serialization;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 119 "C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\Pages\Employee.razor"
+#line 122 "C:\Users\Joaquin Auce\source\repos\BlazorApp\ui\uiBlazor\ui\Pages\Employee.razor"
        
 
     //public class DepartamentClass
@@ -157,6 +171,30 @@ using System.Text.Json.Serialization;
         using var responseStream2 = await response2.Content.ReadAsStreamAsync();
 
         employees = await JsonSerializer.DeserializeAsync<IEnumerable<EmployeeClass>>(responseStream2);
+
+    }
+
+    private async Task UploadFile(IFileListEntry[] files)
+    {
+        var file = files.FirstOrDefault();
+        var ms = new MemoryStream();
+        await file.Data.CopyToAsync(ms);
+
+        var content = new MultipartFormDataContent { { new ByteArrayContent(ms.GetBuffer()), "\"file\"", file.Name } };
+
+        var request = new HttpRequestMessage(HttpMethod.Post,
+            config["Api_Url"] + "Employee/savefile");
+
+        request.Content = content;
+
+        var client = ClientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        using var responseStream = await response.Content.ReadAsStreamAsync();
+
+        PhotoFileName = await JsonSerializer.DeserializeAsync<string>(responseStream);
+
 
     }
 
@@ -244,6 +282,7 @@ using System.Text.Json.Serialization;
 
     private void addClick()
     {
+        Employee employee = new Employee();
         modalTitle = "Add employee";
         EmployeeId = 0;
         EmployeeName = "";
